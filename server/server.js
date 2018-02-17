@@ -1,53 +1,26 @@
-var mongoose = require('mongoose');
+let express = require('express');
+let bodyParser = require('body-parser');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+let {mongoose} = require('./db/mongoose');
+let {Todo} = require('./../models/todo');
+let {User} = require('./../models/user');
 
-let todoApp = mongoose.model('todos', {
-    text: {
-        type: String,
-        required: true,  // will make sure 'text' property exists
-        minlength: 1,    // will make the value of 'text' property must heve length greater than 0
-        trim: true       // remove extra white spaces
-    },
+let app = express();
 
-    completed: {
-        type: Boolean,
-        default: false // Sets the default value of 'completed' property to false, if value is not provided
-    },
+app.use(bodyParser.json());
 
-    completedAt: {
-        type: Number,
-        default: null
-    }
+app.post('/todos', (req, res) => {
+    let todo = new Todo({
+        text: req.body.text
+    });
+
+    todo.save().then((doc) => {
+        res.send(doc);
+    }, (e) => {
+        res.status(400).send(e);
+    });
 });
 
-let Users = mongoose.model('users', {
-    email: {
-        type: String,
-        required: true,
-        minlength: 1,
-        trim: true
-    }
-})
-
-let newUser = new Users({
-    email: 'shubhampurwar4035@gmail.com'
+app.listen(3000, () => {
+    console.log('Started up on port 3000');
 });
-
-newUser.save().then(result => {
-    console.log(result);
-}, error => {
-    console.log(error);
-})
-
-// let newTodo = new todoApp({
-//     text: '  Go and do some fishing  ',
-//     completed: false
-// });
-
-// newTodo.save().then(error => {
-//     console.log('Unbale to save todo', error);
-// }, doc => {
-//     console.log('Todo saved', doc)
-// });
