@@ -9,6 +9,8 @@
   "author": "Suyash Purwar",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^2.2.19"
+    "mongodb": "^2.2.19",
+    "mongoose": "^5.0.3",
+    "yargs": "^11.0.0"
   }
 }
