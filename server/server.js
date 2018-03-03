@@ -26,9 +26,7 @@ app.post('/todos', (req, res) => {
 
 app.get('/todos', (req, res) => {
     Todo.find().then((todos) => {
-        res.send({
-            todos
-        });
+        res.send({todos});
     }, (e) => {
         res.status(400).send(e);
     });
@@ -41,14 +39,8 @@ app.get('/todos/:id', (req, res) => {
         res.status(404).send();
     } else {
         Todo.findById(id).then((todo) => {
-            if (!todo) {
-                res.status(404).send();
-            } else {
-                res.send({todo});
-            }
-        }, (e) => {
-            res.status(400).send()
-        });
+            !todo ? res.status(404).send() : res.send({todo});
+        }, (e) =>  res.status(400).send());
     }
 
 });
@@ -57,19 +49,13 @@ app.delete('/todos/:id', (req, res) => {
     const id = req.params.id;
 
     if(!ObjectID.isValid(id)) {
-        res.status(400).send();
+        res.send();
     } else {
         Todo.findByIdAndRemove(id).then(todo => {
-            if (!todo) {
-                res.send(404).send();
-            } else {
-                res.send(todo);
-            }
+            !todo ? res.send() : res.send({todo});
         });
     }
-}, err => {
-    res.status(400).send();
-});
+}, (e) => res.send());
 
 app.listen(port, () => {
     console.log(`Started up on port ${port}`);

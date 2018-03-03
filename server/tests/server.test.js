@@ -9,7 +9,7 @@ const dummyTodos = [
     {_id: new ObjectID(), text: "First test todo"},
     {_id: new ObjectID(), text: "Second test todo"},
     {_id: new ObjectID(), text: "Third test todo"}
-];
+]; 
 
 beforeEach((done) => {
     Todo.remove({}).then(() => {
@@ -96,12 +96,35 @@ describe('GET /todos/:id', () => {
             .get(`/todos/${new ObjectID().toHexString()}`)
             .expect(404)
             .end(done);
-    })
+    });
 
     it('should return 404 for non-object ids', (done) => {
         request(app)
             .get('/todos/485')
             .expect(404)
             .end(done);
-    })
+    });
+});
+
+describe('DELETE /todos/:id', () => {
+    it('should delete a todo', (done) => {
+        const id = dummyTodos[0]._id.toHexString();
+
+        request(app)
+            .delete(`/todos/${id}`)
+            .expect(200)
+            .expect((res) => {
+                expect(res.body.todo._id).toBe(id);
+            })
+            .end((err, res) => {
+                if (err) {
+                    done(err);
+                } else {
+                    Todo.findById(id).then((todo) => {
+                        expect(todo).toNotExist();
+                        done();
+                    });
+                }
+            }).catch(e => done(e));
+    });
 });
