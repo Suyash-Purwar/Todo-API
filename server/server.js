@@ -49,13 +49,13 @@ app.delete('/todos/:id', (req, res) => {
     const id = req.params.id;
 
     if(!ObjectID.isValid(id)) {
-        res.send();
+        res.status(400).send();
     } else {
         Todo.findByIdAndRemove(id).then(todo => {
-            !todo ? res.send() : res.send({todo});
+            !todo ? res.status(404).send() : res.status(200).send({todo});
         });
     }
-}, (e) => res.send());
+}, (e) => res.send(e));
 
 app.listen(port, () => {
     console.log(`Started up on port ${port}`);
