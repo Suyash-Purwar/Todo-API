@@ -1,4 +1,4 @@
-const lodash = require('lodash');
+const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 let {ObjectID} = require('mongodb');
@@ -62,19 +62,19 @@ app.patch('/todos/:id', (req, res) => {
     const hexID = req.params.id;
     const body = _.pick(req.body, ['text', 'completed']);
 
-    if (!ObjectID.isValid(id)) {
+    if (!ObjectID.isValid(hexID)) {
         return res.status(400).send();
     } 
 
     if (_.isBoolean(body.completed) && body.completed) {
-        body.completedAt = new Data().getTime();
+        body.completedAt = new Date().getTime();
     } else {
         body.completed = false;
         body.completedAt = null;
     }
 
     Todo.findByIdAndUpdate(hexID, {$set: body}, {new: true}).then(todo => {
-        !todo ? res.status(404).send() : res.status(200).send();
+        !todo ? res.status(404).send() : res.status(200).send({todo});
     }).catch(e => res.status(400).send());
 });
 
