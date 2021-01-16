@@ -1,13 +1,12 @@
 # Todo API
 
-##### A Todo API which you can include in your Todo Application to mainatain the backend. You don't need to code your backend from scratch, just use this. All your data is private. Only and only you update, delete and write data. All your data is private with JWTs. 
+An API to provide a backend to a TODO Apps. With this API, one doesn't need to code the backend from the very scratch.
 
-##### Don't make backend, just stick with this API for your Todo Application. Enjoy.....
+### Technologies used: 
 
-### Technologies that are used: 
+* NodeJS
+* ExpressJS
+* Mongoose & MongoDB
+* JSON Web Tokens
 
-* ##### NodeJS
-* ##### ExpressJS
-* ##### Mongoose & MongoDB
-
-###### Give this project a star, if you like this creation.
+** Give this project a star, if you like this creation. **
