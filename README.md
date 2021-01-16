@@ -9,4 +9,4 @@ An API to provide a backend to a TODO Apps. With this API, one doesn't need to c
 * Mongoose & MongoDB
 * JSON Web Tokens
 
-** Give this project a star, if you like this creation. **
+**Give this project a star if you found this API helpful.**
